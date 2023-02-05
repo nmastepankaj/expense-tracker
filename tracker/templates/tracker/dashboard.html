@@ -1,0 +1,84 @@
+{% extends 'tracker/main.html' %} {% block content %}
+
+<div class="center-column">
+    <h1>
+        <center>Expense Tracker</center>
+    </h1>
+
+    <!-- #region The shortcut expense addition interface -->
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="card card-body">
+            <table class="table">
+                <tr>
+                    <th>Cost</th>
+                    <th>Note</th>
+                </tr>
+                <tr>
+                    <td>{{expense_short_form.cost}}</td>
+                    <td>{{expense_short_form.note}}</td>
+                </tr>
+            </table>
+            <input class="btn btn-info" type="submit" value="Add Expense">
+        </div>
+    </form>
+
+    <form action="add_money" method="POST">
+        {% csrf_token %}
+        <div class="card card-body">
+            <table class="table">
+                <tr>
+                    <th>Cost</th>
+                    <th>Note</th>
+                </tr>
+                <tr>
+                    <td>{{add_money_short_form.cost}}</td>
+                    <td>{{add_money_short_form.note}}</td>
+                </tr>
+            </table>
+            <input class="btn btn-info" type="submit" value="Add Money">
+        </div>
+    </form>
+
+    <!-- #endregion -->
+
+    <!-- Totals -->
+    <br />
+    <h4>Total Expense: {{total_expense}}</h4>
+    <h4>Total Credits: {{total_money_credits}}</h4>
+    <h4>Money Left: {{money_left}}</h4>
+    <br/>
+
+    <!-- The main table containing the Expenses themselves-->
+    <div class="col-md-12">
+        <h5>EXPENSES</h5>
+        <hr>
+        <div class="card card-body">
+            <table class="table table">
+                <!-- Headlines -->
+                <tr>
+                    <th>Date</th>
+                    <th>Cost</th>
+                    <th>Note</th>
+                </tr>
+
+                <!-- Render every expense for the past month -->
+                {% for expense in expenses %}
+                <tr>
+                    <td><a href="{% url 'expense_info' expense.id %}">{{expense.transaction_date}}</a></td>
+                    <td>{{expense.cost}}</td>
+                    <td>{{expense.note}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<!---->
+
+{% block footer %}
+
+{% endblock %}
